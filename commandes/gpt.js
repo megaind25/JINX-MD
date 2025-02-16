@@ -1,30 +1,85 @@
-const { zokou } = require("../framework/zokou");
+const { zokou } = require('../framework/zokou');
+const Heroku = require('heroku-client');
+const s = require("../set");
 const axios = require("axios");
+const speed = require("performance-now");
+const { exec } = require("child_process");
+const conf = require(__dirname + "/../set");
+const util = require('util');
+const fs = require('fs-extra');
+const { format } = require(__dirname + "/../framework/mesfonctions");
+const os = require("os");
+const moment = require("moment-timezone");
+const more = String.fromCharCode(8206)
+const readmore = more.repeat(4001)
+zokou({
+  nomCom: 'oxy',
+  aliases: ['logs', 'running'],
+  desc: 'To check runtime',
+  categorie: 'system', // Fixed the typo here (Categorie -> categorie)
+  reaction: '❤️',
+  fromMe: true, // Removed quotes to make it a boolean
+}, async (dest, zk, commandeOptions) => {
+    let { ms, repondre ,prefixe,nomAuteurMessage,mybotpic} = commandeOptions;
+    let { cm } = require(__dirname + "/../framework//zokou");
+    var coms = {};
+    var mode = "public";
+    
+    if ((s.MODE).toLocaleLowerCase() != "yes") {
+        mode = "private";
+    }
 
-// C'est la commande pour interagir avec ChatGPT thomas
-zokou({ nomCom: "gpt3", reaction: "🌐", categorie: "IA" }, async (dest, zk, commandeOptions) => {
-    const { repondre, arg, ms } = commandeOptions;
 
-    try {
-        // Vérifie si des arguments ont été fournis
-        if (!arg || arg.length === 0) {
-            return repondre("Veuillez poser une question.");
-        }
+    
 
-        // Regrouper les arguments en une seule chaîne ecrit  par thomas
-        const question = arg.join(' ');
+    cm.map(async (com, index) => {
+        if (!coms[com.categorie])
+            coms[com.categorie] = [];
+        coms[com.categorie].push(com.nomCom);
+    });
 
-        // Appel à l'API ChatGPT avec la nouvelle URL recherche par thomas
-        const responseApi = await axios.get(`https://test-api-apms.onrender.com/api/chatgpt?text=${encodeURIComponent(question)}&name=Kaizoku&prompt=${encodeURIComponent("Tu seras une IA d'un bot WhatsApp tres puissant du nom BONIPHACE-MD")}&apikey=BrunoSobrino`);
+    moment.tz.setDefault('Etc/GMT');
 
-        const resultat = responseApi.data;
-        if (resultat) {
-            repondre(resultat.resultado);
-        } else {
-            repondre("Erreur lors de la génération de la réponse.");
-        }
+// Créer une date et une heure en GMT
+const temps = moment().format('HH:mm:ss');
+const date = moment().format('DD/MM/YYYY');
+
+  let infoMsg =  `
+*CASEYRHODES XMD AVAILABLE MENUS* 
+
+
+    ▸ *commander* : ${cm.length} 
+    ▸ *rom* : ${format(os.totalmem() - os.freemem())}/${format(os.totalmem())}
+    ▸ *uptime* : ${os.platform()}
+    ▸ *theme* : *CASEYRHODES TECH*
+
+> CASEYRHODES ❣️ MD WA BOT
+> POWERED BY CASEYRHODES TECH 🍀\n${readmore}`;
+    
+let menuMsg = `
+> Hello ${nomAuteurMessage},,, Type menu to access a list of commands. 
+  
+╰───────────────────⏣`;
+    
+  // Send uptime information to the user
+  try {
+        const senderName = message.sender || message.from;
+        await zk.sendMessage(message, {
+            text: infomsg + menuMsg,
+            contextInfo: {
+                mentionedJid: [senderName],
+                externalAdReply: {
+                    title: `CASEYRHODES XMD`,
+                    body: conf.OWNER_NAME,
+                    thumbnailUrl: conf.URL,
+                    sourceUrl: conf.GURL,
+                    mediaType: 1,
+                    renderLargerThumbnail: true
+                }
+            }
+        });
     } catch (error) {
-        console.error('Erreur:', error.message || 'Une erreur s\'est produite');
-        repondre("Oups, une erreur est survenue lors du traitement de votre demande.");
+        console.error("Menu error: ", error);
+        respond("🥵🥵 Menu error: " + error);
     }
 });
