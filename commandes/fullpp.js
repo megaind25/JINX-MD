@@ -1,55 +1,182 @@
-const { zokou } = require("../framework/zokou");
-const { generateProfilePicture } = require("../framework/dl/Function");
-const { S_WHATSAPP_NET } = require('@whiskeysockets/baileys');
-const fs = require("fs");
+const util = require('util');
 
-zokou({
-  nomCom: "fullpp",
-  aliases: ["updatepp", "ppfull"],
-  reaction: '💖',
-  categorie: "search"
-}, async (dest, zk, commandeOptions) => {
-  const { repondre, msgRepondu, auteurMessage } = commandeOptions;
+const fs = require('fs-extra');
 
-  if (msgRepondu) {
-    repondre('quote an image');
+const { zokou } = require(__dirname + "/../framework/zokou");
 
-    let media;
-    if (msgRepondu.imageMessage) {
-      media = msgRepondu.imageMessage;
-    } else {
-      repondre('This is not an image...');
-      return;
+const { format } = require(__dirname + "/../framework/mesfonctions");
+
+const os = require("os");
+
+const moment = require("moment-timezone");
+
+const s = require(__dirname + "/../set");
+
+
+
+zokou({ nomCom: "menu1", categorie: "General" }, async (dest, zk, commandeOptions) => {
+
+    let { ms, repondre ,prefixe,nomAuteurMessage,mybotpic} = commandeOptions;
+
+    let { cm } = require(__dirname + "/../framework//zokou");
+
+    var coms = {};
+
+    var mode = "public";
+
+    
+
+    if ((s.MODE).toLocaleLowerCase() != "yes") {
+
+        mode = "private";
+
     }
+
+
+
+
+
+    
+
+
+
+    cm.map(async (com, index) => {
+
+        if (!coms[com.categorie])
+
+            coms[com.categorie] = [];
+
+        coms[com.categorie].push(com.nomCom);
+
+    });
+
+
+
+    moment.tz.setDefault(s.TZ);
+
+
+
+// Créer une date et une heure en GMT
+
+const temps = moment().format('HH:mm:ss');
+
+const date = moment().format('DD/MM/YYYY');
+
+
+
+  let infoMsg =  `
+
+┏❏ ⌜ CASEYRHODES XMD⌟ ❐
+┃ ⿻𝕄𝕠𝕕𝕖: ${mode}
+┃ ⿻𝕌𝕤𝕖𝕣 : ${s.OWNER_NAME}
+┃ ⿻𝕃𝕚𝕓𝕣𝕒𝕣𝕪 : Baileys
+️┃ ⿻ℙ𝕣𝕖𝕗𝕚𝕩 : ${s.PREFIXE}
+️┃ ⿻𝔻𝕒𝕥𝕖 : ${date}
+┃ ⿻𝕋𝕚𝕞𝕖 : ${temps}
+┃ ⿻𝕋𝕠𝕠𝕝𝕤 : ${cm.length}
+┃ ⿻ℝ𝕒𝕞 : ${format(os.totalmem() - os.freemem())}/${format(os.totalmem())}
+┃ ⿻ℍ𝕠𝕤𝕥 : ${os.platform()}
+┗❏\n\n`;
+
+
+    
+
+let menuMsg = `
+┏━━━━━━━━━┓
+┣💫 CASEYRHODES XMD 
+┗━━━━━━━━━┛\n
+
+
+`;
+
+
+
+    for (const cat in coms) {
+
+        menuMsg += `┏❏ *${cat}*`;
+
+        for (const cmd of coms[cat]) {
+
+            menuMsg += `
+┃ 𓇽 ${cmd}`;
+
+        }
+
+        menuMsg += `
+┗❏\n`
+
+    }
+
+
+
+    menuMsg += `
+
+
+︎┏━━━━━━━━━━━━━━┓
+️┣❏CASEYRHODES TECH🫅
+┣❏Easy life  
+┗┳━━━━━━━━━━━━┳┛
+┏┻━━━━━━━━━━━━┻┓
+┃powered by CASEYRHODES🫅
+┗━━━━━━━━━━━━━━┛\n
+
+
+`;
+
+
+
+   var lien = mybotpic();
+
+
+
+   if (lien.match(/\.(mp4|gif)$/i)) {
 
     try {
-      var medis = await zk.downloadAndSaveMediaMessage(media);
 
-      var { img } = await generateProfilePicture(medis);
+        zk.sendMessage(dest, { video: { url: lien }, caption:infoMsg + menuMsg, footer: "Je suis *TKM-BOT*, déveloper Cod3uchiha" , gifPlayback : true }, { quoted: ms });
 
-      await zk.query({
-        tag: 'iq',
-        attrs: {
-          target: undefined,
-          to: S_WHATSAPP_NET,
-          type: 'set',
-          xmlns: 'w:profile:picture'
-        },
-        content: [
-          {
-            tag: 'picture',
-            attrs: { type: 'image' },
-            content: img
-          }
-        ]
-      });
-
-      fs.unlinkSync(medis);
-      repondre("Bot Profile Picture Updated");
-    } catch (error) {
-      repondre("An error occurred while updating bot profile photo: " + error);
     }
-  } else {
-    repondre('No image was quoted.');
-  }
+
+    catch (e) {
+
+        console.log("🥵🥵 Menu error " + e);
+
+        repondre("🥵🥵 Menu error " + e);
+
+    }
+
+} 
+
+// Vérification pour .jpeg ou .png
+
+else if (lien.match(/\.(jpeg|png|jpg)$/i)) {
+
+    try {
+
+        zk.sendMessage(dest, { image: { url: lien }, caption:infoMsg + menuMsg, footer: "Je suis *TKM-bot*, déveloper cod3uchiha" }, { quoted: ms });
+
+    }
+
+    catch (e) {
+
+        console.log("🥵🥵 Menu error " + e);
+
+        repondre("🥵🥵 Menu error " + e);
+
+    }
+
+} 
+
+else {
+
+    
+
+    repondre(infoMsg + menuMsg);
+
+    
+
+}
+
+
+
 });
