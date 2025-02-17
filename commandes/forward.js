@@ -1,11 +1,11 @@
 const { zokou } = require("../framework/zokou");
-const { ajouterOuMettreAJourJid, mettreAJourAction, verifierEtatJid } = require("../lib/antilien");
-const { atbajouterOuMettreAJourJid, atbverifierEtatJid } = require("../lib/antibot");
+const { ajouterOuMettreAJourJid, mettreAJourAction, verifierEtatJid } = require("../bdd/antilien");
+const { atbajouterOuMettreAJourJid, atbverifierEtatJid } = require("../bdd/antibot");
 const fs = require("fs-extra");
 const conf = require("../set");
 const { default: axios } = require('axios');
 
-ezra({ nomCom: "forward", categorie: 'Group', reaction: "📤" }, async (dest, zk, commandeOptions) => {
+zokou({ nomCom: "forward", categorie: 'Group', reaction: "📤" }, async (dest, zk, commandeOptions) => {
   const { ms, repondre, arg, verifGroupe, nomGroupe, infosGroupe, nomAuteurMessage, superUser  } = commandeOptions;
 
   if (!verifGroupe) {
