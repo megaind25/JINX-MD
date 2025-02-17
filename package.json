@@ -2,23 +2,23 @@
   "name": "CASEYRHODES XMD",
   "version": "2.0.0",
   "description": "",
-  "main": "ibrahim.js",
+  "main": "casey.js",
   "scripts": {
-    "test": "node ibrahim.js",
-    "s": "node ibrahim.js",
-    "toshtech": "pm2 start ibrahim.js --attach",
-    "toshtech": "pm2 start ibrahim.js --attach",
+    "test": "node casey.js",
+    "s": "node casey.js",
+    "toshtech": "pm2 start casey.js --attach",
+    "toshtech": "pm2 start casey.js --attach",
     "c": "tsc"
   },
   "keywords": [
     "bot",
     "Baileys",
-    "Bmw-md",
+    "CASEYRHODES XMD",
     "whatsapp",
     "whatsapp-bot",
-    "bmw-md-boy"
+    "CASEYRHODES XMD"
   ],
-  "author": "Tosh205",
+  "author": "CASEYRHODES",
 "license": "ISC",
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
