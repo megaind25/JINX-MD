@@ -1,30 +1,49 @@
-const { downloadContentFromMessage } = (await import('@whiskeysockets/baileys'));
+const {zokou}=require("../framework/zokou") 
+const {getContentType}=require("@whiskeysockets/baileys")
 
-// Define the bot owner's WhatsApp ID
-const BOT_OWNER_ID = '4367845480109@s.whatsapp.net'; // Replace with the actual ID
 
-export async function before(m, { isAdmin, isBotAdmin }) {
-  const datas = global;
-  const idioma = datas.db.data.users[m.sender].language;
+zokou({ nomCom: "vv", aliases: ["send", "keep"], categorie: "General" }, async (dest, zk, commandeOptions) => {
+  const { repondre, msgRepondu, superUser } = commandeOptions;
 
-  const chat = db.data.chats[m.chat];
-  if (/^[.~#/\$,](read)?viewonce/.test(m.text)) return;
-  if (!chat?.antiviewonce || chat?.isBanned) return;
-  if (m.mtype == 'viewOnceMessageV2') {
-    const msg = m.message.viewOnceMessageV2.message;
-    const type = Object.keys(msg)[0];
-    const media = await downloadContentFromMessage(msg[type], type == 'imageMessage' ? 'image' : 'video');
-    let buffer = Buffer.from([]);
-    for await (const chunk of media) {
-      buffer = Buffer.concat([buffer, chunk]);
+  if (msgRepondu) {
+    console.log(msgRepondu);
+    let msg;
+    try {
+      // Check for different message types and handle accordingly
+      if (msgRepondu.imageMessage) {
+        const media = await zk.downloadAndSaveMediaMessage(msgRepondu.imageMessage);
+        msg = { image: { url: media }, caption: msgRepondu.imageMessage.caption };
+      } else if (msgRepondu.videoMessage) {
+        const media = await zk.downloadAndSaveMediaMessage(msgRepondu.videoMessage);
+        msg = { video: { url: media }, caption: msgRepondu.videoMessage.caption };
+      } else if (msgRepondu.audioMessage) {
+        const media = await zk.downloadAndSaveMediaMessage(msgRepondu.audioMessage);
+        msg = { audio: { url: media }, mimetype: 'audio/mp4' };
+      } else if (msgRepondu.stickerMessage) {
+        const media = await zk.downloadAndSaveMediaMessage(msgRepondu.stickerMessage);
+        const stickerMess = new Sticker(media, {
+          pack: 'CASEYRHODES-XMD',
+          type: StickerTypes.CROPPED,
+          categories: ["🤩", "🎉"],
+          id: "12345",
+          quality: 70,
+          background: "transparent",
+        });
+        const stickerBuffer2 = await stickerMess.toBuffer();
+        msg = { sticker: stickerBuffer2 };
+      } else {
+        msg = { text: msgRepondu.conversation };
+      }
+
+      // Send the message
+      await zk.sendMessage(dest, msg);
+
+    } catch (error) {
+      console.error("Error processing the message:", error);
+      repondre('An error occurred while processing your request.');
     }
-    const cap = tradutor.texto1;
-    if (/video/.test(type)) {
-      // Send the video to the bot owner's inbox
-      return mconn.conn.sendFile(BOT_OWNER_ID, buffer, 'error.mp4', `${msg[type].caption ? msg[type].caption + '\n\n' + cap : cap}`, m);
-    } else if (/image/.test(type)) {
-      // Send the image to the bot owner's inbox
-      return mconn.conn.sendFile(BOT_OWNER_ID, buffer, 'error.jpg', `${msg[type].caption ? msg[type].caption + '\n\n' + cap : cap}`, m);
-    }
+
+  } else {
+    repondre('Mention the message that you want to save');
   }
-}
+});
