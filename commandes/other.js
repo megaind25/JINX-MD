@@ -1,5 +1,5 @@
 const { zokou } = require("../framework/zokou");
-const { delay, loading, react } = require("../framework/utils");
+const { delay, loading, react } = require("../framework/bdd");
 
 const JavaScriptObfuscator = require("javascript-obfuscator");
 
