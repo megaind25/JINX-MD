@@ -7,7 +7,7 @@ const conf = require(__dirname + "/../set");
 
 
 zokou({
-  nomCom: 'apk3',
+  nomCom: 'apk2',
   aliases: ['app', 'playstore'],
   reaction: '💯',
   categorie: 'Download'
