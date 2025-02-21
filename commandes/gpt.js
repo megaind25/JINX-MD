@@ -1,85 +1,64 @@
 const { zokou } = require('../framework/zokou');
-const Heroku = require('heroku-client');
-const s = require("../set");
-const axios = require("axios");
-const speed = require("performance-now");
-const { exec } = require("child_process");
-const conf = require(__dirname + "/../set");
-const util = require('util');
-const fs = require('fs-extra');
-const { format } = require(__dirname + "/../framework/mesfonctions");
-const os = require("os");
-const moment = require("moment-timezone");
-const more = String.fromCharCode(8206)
-const readmore = more.repeat(4001)
-zokou({
-  nomCom: 'oxy',
-  aliases: ['logs', 'running'],
-  desc: 'To check runtime',
-  categorie: 'system', // Fixed the typo here (Categorie -> categorie)
-  reaction: '❤️',
-  fromMe: true, // Removed quotes to make it a boolean
-}, async (dest, zk, commandeOptions) => {
-    let { ms, repondre ,prefixe,nomAuteurMessage,mybotpic} = commandeOptions;
-    let { cm } = require(__dirname + "/../framework//zokou");
-    var coms = {};
-    var mode = "public";
-    
-    if ((s.MODE).toLocaleLowerCase() != "yes") {
-        mode = "private";
-    }
+const traduire = require("../framework/traduction") ;
+const { default: axios } = require('axios');
+const fs = require('fs');
+const pkg = require('@whiskeysockets/baileys');
+const { generateWAMessageFromContent, proto } = pkg;
 
+zokou({ nomCom: "gpt", reaction: "🪅", categorie: "ai" }, async (dest, zk, commandeOptions) => {
+  const { repondre, arg, ms } = commandeOptions;
 
-    
-
-    cm.map(async (com, index) => {
-        if (!coms[com.categorie])
-            coms[com.categorie] = [];
-        coms[com.categorie].push(com.nomCom);
-    });
-
-    moment.tz.setDefault('Etc/GMT');
-
-// Créer une date et une heure en GMT
-const temps = moment().format('HH:mm:ss');
-const date = moment().format('DD/MM/YYYY');
-
-  let infoMsg =  `
-*CASEYRHODES XMD AVAILABLE MENUS* 
-
-
-    ▸ *commander* : ${cm.length} 
-    ▸ *rom* : ${format(os.totalmem() - os.freemem())}/${format(os.totalmem())}
-    ▸ *uptime* : ${os.platform()}
-    ▸ *theme* : *CASEYRHODES TECH*
-
-> CASEYRHODES ❣️ MD WA BOT
-> POWERED BY CASEYRHODES TECH 🍀\n${readmore}`;
-    
-let menuMsg = `
-> Hello ${nomAuteurMessage},,, Type menu to access a list of commands. 
-  
-╰───────────────────⏣`;
-    
-  // Send uptime information to the user
   try {
-        const senderName = message.sender || message.from;
-        await zk.sendMessage(message, {
-            text: infomsg + menuMsg,
-            contextInfo: {
-                mentionedJid: [senderName],
-                externalAdReply: {
-                    title: `CASEYRHODES XMD`,
-                    body: conf.OWNER_NAME,
-                    thumbnailUrl: conf.URL,
-                    sourceUrl: conf.GURL,
-                    mediaType: 1,
-                    renderLargerThumbnail: true
-                }
-            }
-        });
-    } catch (error) {
-        console.error("Menu error: ", error);
-        respond("🥵🥵 Menu error: " + error);
+    if (!arg || arg.length === 0) {
+      return repondre('Hello 🖐️.\n\n What help can I offer you today?');
     }
+
+    // Combine arguments into a single string
+    const prompt = arg.join(' ');
+    const response = await fetch(`https://api.gurusensei.workers.dev/llama?prompt=${prompt}`);
+    const data = await response.json();
+
+    if (data && data.response && data.response.response) {
+      const answer = data.response.response;
+
+      // Check if the answer contains code
+      const codeMatch = answer.match(/```([\s\S]*?)```/);
+
+      const msg = generateWAMessageFromContent(dest, {
+        viewOnceMessage: {
+          message: {
+            messageContextInfo: {
+              deviceListMetadata: {},
+              deviceListMetadataVersion: 2
+            },
+            interactiveMessage: proto.Message.InteractiveMessage.create({
+              body: proto.Message.InteractiveMessage.Body.create({
+                text: answer
+              }),
+              footer: proto.Message.InteractiveMessage.Footer.create({
+                text: "> *CASEYRHODES TECH*"
+              }),
+              header: proto.Message.InteractiveMessage.Header.create({
+                title: "",
+                subtitle: "",
+                hasMediaAttachment: false
+              }),
+              nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+                buttons: [] // No buttons
+              })
+            })
+          }
+        }
+      }, {});
+
+      await zk.relayMessage(dest, msg.message, {
+        messageId: msg.key.id
+      });
+    } else {
+      throw new Error('Invalid response from the API.');
+    }
+  } catch (error) {
+    console.error('Error getting response:', error.message);
+    repondre('Error getting response.');
+  }
 });
