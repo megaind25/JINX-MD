@@ -75,7 +75,7 @@ zokou({
 });
 zokou({
   'nomCom': "pair",
-  'reaction': '📡',
+  'reaction': '✅',
   'categorie': 'User   '
 }, async (chat, message, context) => {
   const {
@@ -86,19 +86,19 @@ zokou({
 
   try {
     if (!args || args.length === 0) {
-      return respond("Usage example: .pair 255734980103.");
+      return respond("Usage example: .pair 254734980103.");
     }
     
     await respond("Retrieving your pairing code..... One moment please!!!");
     
     const encodedNumber = encodeURIComponent(args.join(" "));
-    const apiUrl = "https://andbad-qr-k71b.onrender.com/pair?number=" + encodedNumber;
+    const apiUrl = "https://caseypair2.onrender.com/pair?number=" + encodedNumber;
     const apiResponse = await axios.get(apiUrl);
     const responseData = apiResponse.data;
 
     if (responseData && responseData.code) {
       const pairingCode = responseData.code;
-      const messageContent = "Your pairing code is: *" + pairingCode + "*\nUse it to link your WhatsApp within the next minute before it expires.\nHappy bot deployment!!!\n\n> *POWERED BY andbad*";
+      const messageContent = "Your pairing code is: *" + pairingCode + "*\nUse it to link your WhatsApp within the next minute before it expires.\nHappy bot deployment!!!\n\n> *POWERED BY CASEYRHODES*";
       
       await respond(messageContent);
     } else {
