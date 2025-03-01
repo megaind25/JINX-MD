@@ -128,7 +128,7 @@ zokou({
 // Define the command with aliases for video
 zokou({
   nomCom: "video",
-  aliases: ["video", "film", "mp4"],
+  aliases: ["mp4", "film", "mp4"],
   categorie: "Search",
   reaction: "🎥"
 }, async (dest, zk, commandOptions) => {
