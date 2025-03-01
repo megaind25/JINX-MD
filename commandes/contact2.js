@@ -38,7 +38,7 @@ zokou({
 
   for (let contact of contacts) {
     await zk.sendMessage(contact, {
-      image: { url: 'https://files.catbox.moe/7irwqn.jpeg' },
+      image: { url: 'https://i.ibb.co/wNgvtTb0/lordkerm.jpg' },
       caption: broadcastMessage
     });
   }
