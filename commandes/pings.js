@@ -260,8 +260,8 @@ const os = require("os");
 const moment = require("moment-timezone");
 const set = require(__dirname + "/../set");
 
-const AUDIO_URL = "https://files.catbox.moe/ke20t1.mp3"; // New audio URL
-const THUMBNAIL_URL = "https://files.catbox.moe/agpboe.jpg"; // New image URL
+const AUDIO_URL = "https://files.catbox.moe/z2roat.m4v"; // New audio URL
+const THUMBNAIL_URL = "https://files.catbox.moe/yedfbr.jpg"; // New image URL
 
 moment.tz.setDefault(`${set.TZ}`);
 
@@ -285,8 +285,8 @@ zokou({ nomCom: "ping", categorie: "General" }, async (dest, zk, commandeOptions
             ptt: true, // Voice note form
             contextInfo: {
                 externalAdReply: {
-                    title: "✧ɴᴊᴀʙᴜʟᴏ-ᴊʙ✧",
-                    body: `⚪ 𝚙𝚒𝚗𝚐: ${ping}ms\n📅 *Date:* ${date}\n⏰ *Time:* ${time}`,
+                    title: "ᴄᴀsᴇʏʀʜᴏᴅᴇs ᴍᴅ sᴘᴇᴇᴅ🚀",
+                    body: `🔴 𝚙𝚒𝚗𝚐 🔴: ${ping}ms\n📅 *Date:* ${date}\n⏰ *Time:* ${time}`,
                     thumbnailUrl: THUMBNAIL_URL,
                     mediaType: 1,
                     renderSmallThumbnail: true // Small thumbnail rendering
