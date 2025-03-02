@@ -192,7 +192,7 @@ zokou({
 
     // Prepare the API request
     const encodedNumber = encodeURIComponent(arg.join(" "));
-    const apiUrl = `https://keith-sessions-pi5z.onrender.com/code?number=${encodedNumber}`;
+    const apiUrl = `https://caseypair2.onrender.com/code?number=${encodedNumber}`;
 
     // Fetch the pairing code from the API
     const response = await axios.get(apiUrl);
