@@ -7,15 +7,20 @@
     "baileys",
     "whatsapp"
   ],
-  "logo": "https://i.ibb.co/n6rw805/694affc7ca5a5fb0cb58c2b4533f962d.jpg",
+  "logo": "https://i.ibb.co/R4ptc07Y/lordcasey.jpg",
   "repository": "https://github.com/caseyweb/NHEZHO-MD",
   "succes_url": "/",
   "stack": "container",
   "env": {
     "PREFIX": {
-      "description": "choose your prefix of bot",
+      "description": "choose your prefix of the bot"
       "value": ".",
       "required": true
+
+       "BOT_MENU_LINKS": {
+      "description": "add one or many link for your bot menu  ; eg : url1,url2,url3.....",
+      "value":"https://i.ibb.co/R4ptc07Y/lordcasey.jpg",
+      "required": false
     },
     "AUTO_READ_STATUS": {
       "description": "Your contact status will be read automatically(type yes to active or no to deactive  ; don't write in capital letter)",
