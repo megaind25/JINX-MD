@@ -89,20 +89,20 @@ async function start() {
     try {
         const { state, saveCreds } = await useMultiFileAuthState(sessionDir);
         const { version, isLatest } = await fetchLatestBaileysVersion();
-        console.log(`🤖 JAWAD-MD using WA v${version.join('.')}, isLatest: ${isLatest}`);
+        console.log(`🤖 JINX-MD using WA v${version.join('.')}, isLatest: ${isLatest}`);
         
         const Matrix = makeWASocket({
             version,
             logger: pino({ level: 'silent' }),
             printQRInTerminal: useQR,
-            browser: ["JAWAD-MD", "safari", "3.3"],
+            browser: ["JINX-MD", "safari", "3.3"],
             auth: state,
             getMessage: async (key) => {
                 if (store) {
                     const msg = await store.loadMessage(key.remoteJid, key.id);
                     return msg.message || undefined;
                 }
-                return { conversation: "JAWAD-MD whatsapp user bot" };
+                return { conversation: "JINX-MD whatsapp user bot" };
             }
         });
 
@@ -114,24 +114,24 @@ Matrix.ev.on('connection.update', (update) => {
         }
     } else if (connection === 'open') {
         if (initialConnection) {
-            console.log(chalk.green("Connected Successfully KHAN-MD 🤍"));
+            console.log(chalk.green("Connected Successfully JINX-XMD 🤍"));
             Matrix.sendMessage(Matrix.user.id, { 
-                image: { url: "https://files.catbox.moe/pf270b.jpg" }, 
-                caption: `*Hello there JAWAD-MD User! 👋🏻* 
+                image: { url: "https://files.catbox.moe/j2ego4.jpg" }, 
+                caption: `*Hello there JINX-XMD User! 👋🏻* 
 
-> Simple, Straightforward, But Loaded With Features 🎊. Meet JAWAD-MD WhatsApp Bot.
+> Simple, Straightforward, But Loaded With Features 🎊. Meet JINX-XMD WhatsApp Bot.
 
-*Thanks for using JAWAD-MD 🚩* 
+*Thanks for using JINX-XMD 🚩* 
 
 > Join WhatsApp Channel: ⤵️  
-https://whatsapp.com/channel/0029Vb5n6oH0QeaoT1Shcn35
+https://whatsapp.com/channel/0029VakUEfb4o7qVdkwPk83E
 
 - *YOUR PREFIX:* = ${prefix}
 
 Don't forget to give a star to the repo ⬇️  
-https://github.com/XdTechPro/JAWAD-MD
+https://github.com/caseyweb/JINX-MD
 
-> © Powered BY JawadTechX 🖤`
+> © Powered BY CASEYRHODES TECH 🍀 🖤`
             });
             initialConnection = false;
         } else {
@@ -179,7 +179,7 @@ https://github.com/XdTechPro/JAWAD-MD
             await Matrix.readMessages([mek.key]);
             
             if (config.AUTO_STATUS_REPLY) {
-                const customMessage = config.STATUS_READ_MSG || '✅ Auto Status Seen Bot By JAWAD-MD';
+                const customMessage = config.STATUS_READ_MSG || '✅ Auto Status Seen Bot By JINX-XMD';
                 await Matrix.sendMessage(fromJid, { text: customMessage }, { quoted: mek });
             }
         }
@@ -220,5 +220,4 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
 
