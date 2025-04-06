@@ -22,10 +22,10 @@ export default async function GroupParticipants(sock, { id, participants, action
                     const membersCount = metadata.participants.length;
             sock.sendMessage(id, {
                text: `> Hello @${userName}! Welcome to *${metadata.subject}*.\n> You are the ${membersCount}th member.\n> Joined at: ${joinTime} on ${joinDate}
-"`, contextInfo: {
+"\n> ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴄᴀsᴇʏʀʜᴏᴅᴇs ᴛᴇᴄʜ 👻`, contextInfo: {
                   mentionedJid: [jid],
                   externalAdReply: {
-                     title: `Welcome`,
+                     title: `𝐖𝐄𝐋𝐂𝐎𝐌𝐄`,
                      mediaType: 1,
                      previewType: 0,
                      renderLargerThumbnail: true,
@@ -40,10 +40,10 @@ export default async function GroupParticipants(sock, { id, participants, action
                     const leaveDate = moment.tz('Asia/Kolkata').format('DD/MM/YYYY');
                     const membersCount = metadata.participants.length;
             sock.sendMessage(id, {
-               text: `> Goodbye @${userName} from ${metadata.subject}.\n> We are now ${membersCount} in the group.\n> Left at: ${leaveTime} on ${leaveDate}"`, contextInfo: {
+               text: `> Goodbye @${userName} from ${metadata.subject}.\n> We are now ${membersCount} in the group.\n> Left at: ${leaveTime} on ${leaveDate}"\n> ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴄᴀsᴇʏʀʜᴏᴅᴇs ᴛᴇᴄʜ 👻`, contextInfo: {
                   mentionedJid: [jid],
                   externalAdReply: {
-                     title: `Leave`,
+                     title: `𝐋𝐄𝐀𝐕𝐄`,
                      mediaType: 1,
                      previewType: 0,
                      renderLargerThumbnail: true,
