@@ -13,7 +13,7 @@ const play = async (m, gss) => {
     }
 
     const searchQuery = args.join(" ");
-    m.reply("*🎧 Searching for the song...*");
+    m.reply("> *🎧 Searching for the song...*");
 
     try {
       const searchResults = await yts(searchQuery);
@@ -45,7 +45,7 @@ const play = async (m, gss) => {
         { quoted: m }
       );
 
-      m.reply(`✅ *${title}* has been downloaded successfully!`);
+      m.reply(`> ✅ *${title}* has been downloaded successfully!`);
     } catch (error) {
       console.error(error);
       m.reply("❌ An error occurred while processing your request.");
