@@ -72,7 +72,6 @@ const menu = async (m, Matrix) => {
 ┃❍╭──────────────
 ┃❍│ *ᴏᴡɴᴇʀ* : ${config.OWNER_NAME}
 ┃❍│ *ᴜsᴇʀ* : ${m.pushName}
-┃❍│ *ʙᴀɪʟᴇʏs* : Multi Device
 ┃❍│ *ᴛʏᴘᴇ* : NodeJs
 ┃❍│ *ᴍᴏᴅᴇ* : ${mode}
 ┃❍│ *ᴅᴇᴠᴇʟᴏᴘᴇʀ* : ᴍʀ.ᴄᴀsᴇʏʀʜᴏᴅᴇs
@@ -95,7 +94,6 @@ const menu = async (m, Matrix) => {
 ┃◈┃• 7. Main Menu
 ┃◈┃• 8. Owner Menu 
 ┃◈┃• 9. Stalk Menu     
-┃◈┃• update
 ┃◈└───────────┈⊷
 ╰──────────────┈⊷
 > *ʀᴇᴘʟʏ ᴡɪᴛʜ ɴᴜᴍʙᴇʀ ғᴏʀ (1-9)*`;
