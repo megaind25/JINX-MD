@@ -106,10 +106,10 @@ const menu = async (m, Matrix) => {
           return Buffer.from(response.data, 'binary');
         } catch (error) {
           console.error('Error fetching menu image from URL, falling back to local image:', error);
-          return fs.readFileSync('./media/Casey.mp4');
+          return fs.readFileSync('./media/Casey.jpg');
         }
       } else {
-        return fs.readFileSync('./media/Casey.mp4');
+        return fs.readFileSync('./media/Casey.jpg');
       }
     };
 
